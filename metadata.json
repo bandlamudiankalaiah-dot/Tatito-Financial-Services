@@ -1,0 +1,6 @@
+{
+  "name": "Tatito Financial Services",
+  "description": "NBFC-style all-in-one finance platform by M/s. Tatito Projects for instant loans, live stock trading, mutual funds, SIPs, and digital demat account management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
