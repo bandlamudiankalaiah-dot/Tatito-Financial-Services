@@ -17,6 +17,18 @@ import {
   Sparkles
 } from 'lucide-react';
 
+const serviceLinks = [
+  ['Payment collections','/collections'], ['Payments and bills','/payments'],
+  ['Track expenses','/services?tab=expenses'], ['Customer support','/services?tab=support'],
+] as const;
+
+function servicesOrigin() {
+  try {
+    const url=new URL(import.meta.env.VITE_TATITO_SERVICES_ORIGIN);
+    if(url.protocol==='https:' || (url.protocol==='http:' && url.hostname==='localhost'))return url.origin;
+  }catch { /* No services deployment configured. */ }
+}
+
 export const CustomerDashboard: React.FC<{
   onOpenLoanApply: () => void;
   onOpenLoanDetails: (loanId: string) => void;
@@ -31,6 +43,8 @@ export const CustomerDashboard: React.FC<{
     setActiveTab, 
     setIsKycModalOpen 
   } = useApp();
+
+  const origin = servicesOrigin();
 
   // Financial calculations
   const totalStockValue = holdings.reduce((sum, h) => sum + h.currentValue, 0);
@@ -51,6 +65,11 @@ export const CustomerDashboard: React.FC<{
 
   return (
     <div className="space-y-8">
+      {origin && <section className="rounded-2xl bg-slate-900 p-5 text-white">
+        <h2 className="text-lg font-bold">Tatito services</h2>
+        <p className="mt-1 text-sm text-slate-300">Open your services account to manage test payments, expenses and tickets.</p>
+        <div className="mt-4 flex flex-wrap gap-2">{serviceLinks.map(([label,path])=><a className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-900" key={path} href={origin+path}>{label}</a>)}</div>
+      </section>}
       {/* Hero Financial Overview Card */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white p-6 sm:p-8 shadow-xl">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
